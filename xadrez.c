@@ -1,76 +1,99 @@
 #include <stdio.h>
 
-int main(){
+// Área para definição da função recursiva do movimento da Torre.
+void recursivoTorre(int movimentosTorre)
+{   
+    if (movimentosTorre > 0) // Condição: enquanto a variável movimentosTorre for maior que 0.
+    {
+    recursivoTorre(movimentosTorre - 1); 
+    printf("→Direita→\n");               
+    }
+}
+
+// Área para definição da função recursiva do movimento do Bispo.
+void recursivoBispo (int movimentosBispo) 
+{   
+    int i = 2; // Sempre que o loop reinicia chamando a função recursivoBispo a variável i volta e ter o valor 2;
+    while (i > 1 && movimentosBispo > 0)
+    {
+        printf("↑Cima↑\n");
+        i--; // Decremento do valor de i, assim o while tem condição falsa, e o while de baixo tem condição verdadeira.
+        while (i > 0)
+        {
+            printf("→Direita→\n");
+            i--; // Decremento do valor de i, fazendo com que o segundo while também tenha a condição falsa.
+            recursivoBispo(movimentosBispo - 1);  // Chama a função dentro da função e diminui
+        }                                         // 1 unidade da variável movimentosBispo e reinicia o loop da função
+    }
+}
+
+// Área para definição da função recursiva do movimento da Rainha.
+void recursivoRainha(int movimentosRainha)
+{   
+    if (movimentosRainha > 0) 
+    {
+    recursivoRainha(movimentosRainha - 1);
+    printf("←Esquerda←\n");
+    }
+}
+
+// Área para definição dos loops aninhados do movimento do Cavalo.
+void recursivoCavalo(int movimentosCavalo)
+{   
+    
+    for (int i = 0 ; i < 2 || movimentosCavalo >= 1; i++, movimentosCavalo--) // A variável i é o contador, a cada loop imprime "↑Cima↑"
+{                                                                             // e é incrementado, quando chega a 2 ou quando a variável
+        printf("↑Cima↑\n");                                                   // movimentosCavalo chega ao valor 0, o loop para.
+        while (i == 1)      // Quando a variável i chega ao valor 1, o while imprime "→Direita→" e
+        {                  // o break interrompe o loop para não ficar um loop infinito.
+            printf("→Direita→\n");
+            break;
+        }
+    }
+    
+}
+
+int main() {
     // Área para declaração de variáveis e seus respectivos valores.
     int movimentosTorre = 5;            // Variável com o número de movimentos que a Torre irá fazer.
     int movimentosBispo = 5;            // Variável com o número de movimentos que o Bispo irá fazer.
     int movimentosRainha = 8;           // Variável com o número de movimentos que a Rainha irá fazer.
     int movimentosCavalo = 1;           // Variável com o número de movimentos que o Cavalo irá fazer.
-    char cima[20] = "↑Cima↑";           // Variável que exibe o movimento para cima.
-    char baixo[20] = "↓Baixo↓";         // Variável que exibe o movimento para baixo.
-    char esquerda[20] = "←Esquerda←";   // Variável que exibe o movimento para esquerda.
-    char direita[20] = "→Direita→";     // Variável que exibe o movimento para direita.
-    int contador = 0;                   // Variável que conta quantos movimentos foram feitos.
-
-    // Área da lógica para simular o movimento da Torre.
+   
+    
+    // Área de exibição do movimento da Torre.
     // A Torre se move em linha reta, seja horizontal ou vertical.
-    // Moveremos cinco casas para a direita usando o while.
-
+    // Moveremos cinco casas para a direita usando a função recursiva da Torre.
     printf("=-=-= TORRE =-=-=\n");
-    printf("Movendo %d casas para a direita:\n", movimentosTorre);
-
-    while (contador < movimentosBispo)
-    {
-        printf("%s\n", direita);
-        contador++;
-    }
-    contador = 0; // Zera o contador após a execução do while.
+    printf("Movendo...\n");
+    recursivoTorre(movimentosTorre); // Chama a função recursivoTorre com a variável movimentosTorre dentro.
     printf("\n"); // Cria uma linha vazia para separar a exibição dos movimentos de cada peça.
 
 
-    // Área da lógica para simular o movimento do Bispo.
+    // Área de exibição do movimento do Bispo.
     // O Bispo se move na diagonal.
-    // Moveremos cinco casas para a direita superior usando o for.
-
+    // Moveremos cinco casas para a direita superior usando a função recursiva do Bispo.
     printf("=-=-= BISPO =-=-=\n");
-    printf("Movendo %d casas na diagonal para a direita superior:\n", movimentosTorre);
-    for (contador; contador < movimentosBispo; contador++) 
-    {
-        printf("%s \n", cima);
-        printf("%s \n", direita);
-    }
-    contador = 0; // Zera o contador após a execução do for.
+    printf("Movendo...\n");
+    recursivoBispo(movimentosBispo);
     printf("\n"); // Cria uma linha vazia para separar a exibição dos movimentos de cada peça.
 
 
-    // Área da lógica para simular o movimento do Bispo.
+    // Área de exibição do movimento da Rainha.
     // A Rainha move-se em todas as direções.
-    // Moveremos oito casas para a esquerda usando o do-while.
+    // Moveremos oito casas para a esquerda usando a função recursiva da Rainha.
     printf("=-=-= RAINHA =-=-=\n");
-    printf("Movendo %d casas para a esquerda:\n", movimentosRainha);
-    do
-    {
-        printf("%s\n", esquerda);
-        contador++;
-    } while (contador < movimentosRainha);
-
-    contador = 0; // Zera o contador após a execução do do-while.
+    printf("Movendo...\n");
+    recursivoRainha(movimentosRainha);
     printf("\n"); // Cria uma linha vazia para separar a exibição dos movimentos de cada peça.
 
 
     // Área da lógica para simular o movimento do Cavalo.
     // O Cavalo se move duas casas em uma direção (horizontal ou vertical) e depois uma casa perpendicularmente, formando um "L".
-    // Moveremos duas casas para  baixo e uma casa a esquerda usando o while e o for aninhados.
+    // Moveremos em L, duas casas para baixo e uma casa a esquerda usando a função recursiva do Cavalo.
     printf("=-=-= CAVALO =-=-=\n");
-    printf("Movendo em L (%d casas para baixo e %d casa a esquerda):\n", (movimentosCavalo + 1), movimentosCavalo);
-        while (movimentosCavalo--){ // Faz o loop e decrementa até a variável movimentoCavalo chegar a 0 e para.
-            for (contador; contador < 2; contador++) // Faz o loop com o contador zerado e incrementa até 
-                                                     // o contador chegar a 2 e para.
-            {
-                printf("%s ,", baixo); // Imprime duas vezes "↓Baixo↓"
-            }
-            printf("%s\n", esquerda); // Imprime uma vez "←Esquerda←"
-        }
+    printf("Movendo...\n");
+    recursivoCavalo(movimentosCavalo);
     printf("\n");
 
     printf(" =-=-= FIM DA SIMULAÇÃO =-=-=");
